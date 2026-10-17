@@ -210,3 +210,14 @@ func TestShortContainerID(t *testing.T) {
 		}
 	}
 }
+
+func TestEmhttpDiskID(t *testing.T) {
+	for in, want := range map[string]string{
+		"b25ca0db:WDC_WD80EFPX-68C4ZN0_WD-RD2R4LMH": "WDC_WD80EFPX-68C4ZN0_WD-RD2R4LMH",
+		"ST2000VN004_Z52B":                          "ST2000VN004_Z52B",
+	} {
+		if got := emhttpDiskID(in); got != want {
+			t.Errorf("emhttpDiskID(%q) = %q, want %q", in, got, want)
+		}
+	}
+}

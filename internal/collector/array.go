@@ -28,7 +28,7 @@ const arrayQuery = `query UnraidExporterArray {
 }
 
 fragment ArrayDiskFields on ArrayDisk {
-  idx name device size status rotational temp numReads numWrites numErrors
+  id idx name device size status rotational temp numReads numWrites numErrors
   fsSize fsFree fsUsed type warning critical fsType transport color isSpinning
 }`
 
@@ -49,7 +49,7 @@ var (
 	arraySlotsDesc   = newDesc("array", "disk_slots", "Array disk slots by usage.", "usage")
 
 	diskLabels       = []string{"name", "device", "type"}
-	diskInfoDesc     = newDesc("array_disk", "info", "Array disk information.", "name", "device", "type", "idx", "fs_type", "transport", "rotational")
+	diskInfoDesc     = newDesc("array_disk", "info", "Array disk information. disk_id is Unraid's <model>_<serial> identifier.", "name", "device", "type", "idx", "disk_id", "fs_type", "transport", "rotational")
 	diskStatusDesc   = newDesc("array_disk", "status", "Array disk status (1 for the current status).", append(diskLabels, "status")...)
 	diskColorDesc    = newDesc("array_disk", "color_info", "Array disk status color as shown in the Unraid UI.", append(diskLabels, "color")...)
 	diskSizeDesc     = newDesc("array_disk", "size_bytes", "Array disk size.", diskLabels...)
@@ -76,6 +76,7 @@ var (
 )
 
 type arrayDisk struct {
+	ID         string        `json:"id"`
 	Idx        unraid.Number `json:"idx"`
 	Name       *string       `json:"name"`
 	Device     *string       `json:"device"`
@@ -197,7 +198,7 @@ func emitArrayDisk(ch chan<- prometheus.Metric, d arrayDisk, name string) {
 		rotational = strconv.FormatBool(*d.Rotational)
 	}
 	ch <- prometheus.MustNewConstMetric(diskInfoDesc, prometheus.GaugeValue, 1,
-		name, deref(d.Device), strings.ToLower(d.Type), idx, deref(d.FsType), deref(d.Transport), rotational)
+		name, deref(d.Device), strings.ToLower(d.Type), idx, emhttpDiskID(d.ID), deref(d.FsType), deref(d.Transport), rotational)
 	if d.Status != nil {
 		emitStateSet(ch, diskStatusDesc, arrayDiskStatuses, *d.Status, lv...)
 	}
@@ -215,4 +216,14 @@ func emitArrayDisk(ch chan<- prometheus.Metric, d arrayDisk, name string) {
 	emit(ch, diskSpinningDesc, prometheus.GaugeValue, derefBool(d.IsSpinning), lv...)
 	emitPercent(ch, diskWarnDesc, prometheus.GaugeValue, d.Warning, lv...)
 	emitPercent(ch, diskCritDesc, prometheus.GaugeValue, d.Critical, lv...)
+}
+
+// emhttpDiskID strips the server prefix from an ArrayDisk PrefixedID
+// ("<server>:<model>_<serial>"). It comes from emhttp's state, so unlike the
+// "disks" query it never touches the drives.
+func emhttpDiskID(id string) string {
+	if _, after, ok := strings.Cut(id, ":"); ok {
+		return after
+	}
+	return id
 }

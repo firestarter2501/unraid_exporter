@@ -80,20 +80,32 @@ Prometheus の `scrape_timeout` は `UNRAID_TIMEOUT` より長くしてくださ
 | collector | デフォルト | 主なメトリクス |
 |---|---|---|
 | `info` | ✓ | `unraid_info{hostname,unraid_version,api_version,kernel,arch}`, `unraid_hardware_info`, `unraid_boot_time_seconds`, `unraid_time_seconds`, `unraid_cpu_cores`, `unraid_cpu_threads`, `unraid_cpu_frequency{,_max}_hertz` |
-| `array` | ✓ | `unraid_array_state{state}`, `unraid_array_started`, `unraid_array_{size,used,free}_bytes`, `unraid_array_disk_slots{usage}`, `unraid_array_disk_{info,status,color_info,size_bytes,fs_size_bytes,fs_free_bytes,fs_used_bytes,temperature_celsius,reads_total,writes_total,errors_total,spinning,warning_threshold_ratio,critical_threshold_ratio}`, `unraid_parity_check_{status,running,paused,correcting,progress_ratio,errors,duration_seconds,speed_bytes_per_second,timestamp_seconds}` |
+| `array` | ✓ | `unraid_array_state{state}`, `unraid_array_started`, `unraid_array_{size,used,free}_bytes`, `unraid_array_disk_slots{usage}`, `unraid_array_disk_{info（disk_id ラベルに `モデル名_シリアル`）,status,color_info,size_bytes,fs_size_bytes,fs_free_bytes,fs_used_bytes,temperature_celsius,reads_total,writes_total,errors_total,spinning,warning_threshold_ratio,critical_threshold_ratio}`, `unraid_parity_check_{status,running,paused,correcting,progress_ratio,errors,duration_seconds,speed_bytes_per_second,timestamp_seconds}` |
 | `metrics` | ✓ | `unraid_cpu_utilization_ratio`, `unraid_cpu_core_utilization_ratio{cpu,mode}`, `unraid_memory_{total,used,free,available,active,buffcache}_bytes`, `unraid_memory_utilization_ratio`, `unraid_swap_{total,used,free}_bytes`, `unraid_swap_utilization_ratio` |
-| `temperature` | ✓ | `unraid_temperature_celsius{sensor,name,type,location}`, `unraid_temperature_{warning,critical}_celsius`, `unraid_temperature_status` |
+| `temperature` | ✓ ※ | `unraid_temperature_celsius{sensor,name,type,location}`, `unraid_temperature_{warning,critical}_celsius`, `unraid_temperature_status` |
 | `network` | ✓ | `unraid_network_up{interface,operstate}`, `unraid_network_{receive,transmit}_{bytes,packets,errors,dropped}_total` |
 | `docker` | ✓ | `unraid_docker_containers{state}`, `unraid_docker_container_{info,state,running,autostart,update_available,created_timestamp_seconds}` |
 | `vms` | ✓ | `unraid_vm_state{name,state}`, `unraid_vm_running` |
 | `shares` | ✓ | `unraid_share_{free,used,size}_bytes{name}` |
 | `notifications` | ✓ | `unraid_notifications{folder,importance}` |
 | `ups` | ✓ | `unraid_ups_{info,online,battery_charge_ratio,battery_runtime_seconds,input_voltage_volts,output_voltage_volts,load_ratio,nominal_power_watts,power_watts}` |
-| `disks` | | `unraid_disk_{info,size_bytes,temperature_celsius,smart_ok,spinning}{device}`：物理ディスクの情報。Unraid 側で `smartctl` が走る可能性があるため、デフォルトでは無効です |
+| `disks` | | `unraid_disk_{info,size_bytes,temperature_celsius,smart_ok,spinning}{device}`：物理ディスクの情報。全ディスクに `smartctl -a` が走るため、デフォルトでは無効です。モデル名とシリアル番号は `unraid_array_disk_info` の `disk_id` で、ディスクを起こさずに取れます |
 
 exporter 自身のメトリクス：`unraid_up`, `unraid_exporter_collector_success{collector}`, `unraid_exporter_collector_duration_seconds{collector}`, `unraid_exporter_build_info`
 
 状態系のメトリクス（`*_state`, `*_status`）は StateSet 形式で、取りうる状態ごとに系列を出し、現在の状態だけが 1 になります。
+
+### HDD のスピンダウンとの関係
+
+Unraid API（4.37.5）のソースと実機で確認した内容です。
+
+| collector | ディスクへのアクセス | スピンダウン中の HDD |
+|---|---|---|
+| `array` | emhttp の状態を読むだけ（約 2 ms） | 起こさない |
+| `temperature` ※ | 内部で `disks` と同じ処理を呼び、全ディスクに `smartctl -a`（`-n standby` なし）を実行（約 1.2 秒） | **起こしうる** |
+| `disks` | 要求したフィールドに関係なく、全ディスクに `smartctl -a` を実行 | **起こしうる** |
+
+SSD は回転しないので、どれを使っても問題ありません。HDD をスピンダウンさせている（Settings → Disk Settings → Default spin down delay が Never 以外の）環境では、`UNRAID_EXPORTER_COLLECTORS` から `temperature` を外してください。ディスク温度は `array` の `unraid_array_disk_temperature_celsius` で、スピンダウン中のディスクを起こさずに取れます（スピンダウン中は出力されません）。外すと CPU やマザーボードの温度は取れなくなります。
 
 実機（Unraid 7.3.3 / API 4.37.5）で確認した API 側の挙動：
 

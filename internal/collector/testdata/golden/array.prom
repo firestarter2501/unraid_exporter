@@ -35,13 +35,13 @@ unraid_array_disk_fs_used_bytes{device="nvme0n1",name="cache",type="cache"} 5.12
 unraid_array_disk_fs_used_bytes{device="sda",name="flash",type="flash"} 1.297047552e+09
 unraid_array_disk_fs_used_bytes{device="sdc",name="disk1",type="data"} 4.096e+12
 unraid_array_disk_fs_used_bytes{device="sdd",name="disk2",type="data"} 8.3142617088e+11
-# HELP unraid_array_disk_info Array disk information.
+# HELP unraid_array_disk_info Array disk information. disk_id is Unraid's <model>_<serial> identifier.
 # TYPE unraid_array_disk_info gauge
-unraid_array_disk_info{device="nvme0n1",fs_type="btrfs",idx="30",name="cache",rotational="false",transport="nvme",type="cache"} 1
-unraid_array_disk_info{device="sda",fs_type="vfat",idx="54",name="flash",rotational="false",transport="usb",type="flash"} 1
-unraid_array_disk_info{device="sdb",fs_type="",idx="0",name="parity",rotational="true",transport="ata",type="parity"} 1
-unraid_array_disk_info{device="sdc",fs_type="xfs",idx="1",name="disk1",rotational="true",transport="ata",type="data"} 1
-unraid_array_disk_info{device="sdd",fs_type="xfs",idx="2",name="disk2",rotational="true",transport="ata",type="data"} 1
+unraid_array_disk_info{device="nvme0n1",disk_id="Samsung_SSD_980_S1234",fs_type="btrfs",idx="30",name="cache",rotational="false",transport="nvme",type="cache"} 1
+unraid_array_disk_info{device="sda",disk_id="Flash_Drive_0001",fs_type="vfat",idx="54",name="flash",rotational="false",transport="usb",type="flash"} 1
+unraid_array_disk_info{device="sdb",disk_id="WDC_WD80EFZZ_WD-ABC123",fs_type="",idx="0",name="parity",rotational="true",transport="ata",type="parity"} 1
+unraid_array_disk_info{device="sdc",disk_id="ST8000VN004_ZA1",fs_type="xfs",idx="1",name="disk1",rotational="true",transport="ata",type="data"} 1
+unraid_array_disk_info{device="sdd",disk_id="ST8000VN004_ZA2",fs_type="xfs",idx="2",name="disk2",rotational="true",transport="ata",type="data"} 1
 # HELP unraid_array_disk_reads_total Read I/O requests (may be reset by Unraid).
 # TYPE unraid_array_disk_reads_total counter
 unraid_array_disk_reads_total{device="nvme0n1",name="cache",type="cache"} 999
