@@ -153,3 +153,31 @@ func TestHealthcheck(t *testing.T) {
 		t.Error("expected failure for closed server")
 	}
 }
+
+func TestEmptyEnvUsesDefault(t *testing.T) {
+	clearEnv(t)
+	t.Setenv("UNRAID_URL", "http://tower")
+	t.Setenv("UNRAID_API_KEY", "k")
+	// Unraid passes blank template fields as empty variables.
+	for _, e := range envVars {
+		if e.env != "UNRAID_URL" && e.env != "UNRAID_API_KEY" {
+			t.Setenv(e.env, "")
+		}
+	}
+	cfg, err := parseFlags(nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if cfg.timeout != 10*time.Second || cfg.netExclude == nil || cfg.netExclude.String() != "^(lo|veth.*)$" || cfg.listenAddress != ":9703" {
+		t.Errorf("empty variables should fall back to defaults: %+v", cfg)
+	}
+
+	t.Setenv("UNRAID_EXPORTER_NETWORK_EXCLUDE", "^$")
+	cfg, err = parseFlags(nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if cfg.netExclude.MatchString("veth1") || cfg.netExclude.MatchString("lo") {
+		t.Errorf("^$ should keep all interfaces")
+	}
+}

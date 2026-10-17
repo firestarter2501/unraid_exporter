@@ -125,6 +125,19 @@ bad=$($PODMAN exec "$NAME-prometheus" wget -qO- http://localhost:9704/metrics)
 echo "$bad" | grep -qx 'unraid_up 0' || fail "expected unraid_up 0 with a wrong API key"
 echo "ok: wrong API key reports unraid_up 0"
 
+# Unraid passes blank template fields as empty variables; they must fall back
+# to the defaults.
+$PODMAN run -d --pod "$NAME" --name "$NAME-blank" \
+	-e UNRAID_URL=http://localhost:8080 -e UNRAID_API_KEY=test-api-key \
+	-e UNRAID_EXPORTER_LISTEN_ADDRESS=:9705 \
+	-e UNRAID_EXPORTER_COLLECTORS= -e UNRAID_EXPORTER_NETWORK_EXCLUDE= -e UNRAID_TIMEOUT= \
+	-e UNRAID_INSECURE_SKIP_VERIFY= -e UNRAID_EXPORTER_LOG_LEVEL= -e UNRAID_EXPORTER_TELEMETRY_PATH= \
+	"$IMAGE" >/dev/null
+sleep 1
+blank=$($PODMAN exec "$NAME-prometheus" wget -qO- http://localhost:9705/metrics) || fail "exporter with blank variables did not start: $($PODMAN logs "$NAME-blank" 2>&1)"
+echo "$blank" | grep -qx 'unraid_up 1' || fail "expected unraid_up 1 with blank optional variables"
+echo "ok: blank optional variables fall back to defaults"
+
 # An invalid environment variable must stop the container with a clear error.
 if $PODMAN run --rm -e UNRAID_URL=http://x -e UNRAID_API_KEY=k -e UNRAID_TIMEOUT=ten "$IMAGE" >"$WORK/bad.log" 2>&1; then
 	fail "invalid UNRAID_TIMEOUT was accepted"

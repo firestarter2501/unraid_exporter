@@ -54,6 +54,11 @@ func TestUnraidTemplate(t *testing.T) {
 
 	seen := map[string]bool{}
 	for _, c := range tpl.Configs {
+		// dockerMan renders a Variable whose Default contains "|" as a
+		// dropdown of the "|"-separated parts, which breaks regexps.
+		if strings.Contains(c.Default, "|") || strings.Contains(c.Value, "|") {
+			t.Errorf("%s: Default/value must not contain '|' (Unraid turns it into a dropdown)", c.Target)
+		}
 		switch c.Type {
 		case "Port":
 			if !strings.HasSuffix(fs.Lookup("web.listen-address").DefValue, ":"+c.Target) {
@@ -77,7 +82,7 @@ func TestUnraidTemplate(t *testing.T) {
 						t.Errorf("template enables unknown collector %q", name)
 					}
 				}
-			} else if def := fs.Lookup(flagName).DefValue; c.Default != def {
+			} else if def := fs.Lookup(flagName).DefValue; c.Default != "" && c.Default != def {
 				t.Errorf("%s: template default %q, exporter default %q", c.Target, c.Default, def)
 			}
 			if c.Value != "" && c.Value != c.Default {

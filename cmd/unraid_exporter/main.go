@@ -43,7 +43,8 @@ type config struct {
 
 // envVars maps every configuration flag to its environment variable. An
 // environment variable is applied unless the flag is given on the command
-// line, and is validated by the same parser as the flag.
+// line, and is validated by the same parser as the flag. An empty variable
+// counts as unset, because Unraid passes blank template fields as "".
 var envVars = []struct{ flag, env string }{
 	{"web.listen-address", "UNRAID_EXPORTER_LISTEN_ADDRESS"},
 	{"web.telemetry-path", "UNRAID_EXPORTER_TELEMETRY_PATH"},
@@ -70,7 +71,7 @@ func newFlagSet(c *config, netExclude, logLevel *string) *flag.FlagSet {
 	fs.DurationVar(&c.timeout, "unraid.timeout", 10*time.Second, "Timeout for a scrape of the Unraid API.")
 	fs.StringVar(&c.collectors, "collectors", strings.Join(collector.Defaults(), ","),
 		"Comma-separated collectors to enable (available: "+strings.Join(collector.Available(), ",")+").")
-	fs.StringVar(netExclude, "collector.network.exclude", "^(lo|veth.*)$", "Regexp of network interfaces to ignore (empty keeps all).")
+	fs.StringVar(netExclude, "collector.network.exclude", "^(lo|veth.*)$", "Regexp of network interfaces to ignore (^$ keeps all).")
 	fs.StringVar(logLevel, "log.level", "info", "Log level: debug, info, warn, error.")
 	fs.BoolVar(&c.showVersion, "version", false, "Print version and exit.")
 	fs.BoolVar(&c.healthcheck, "healthcheck", false, "Check that the exporter listening on --web.listen-address is healthy and exit (for Docker HEALTHCHECK).")
@@ -93,7 +94,7 @@ func parseFlags(args []string) (*config, error) {
 	fs.Visit(func(f *flag.Flag) { onCLI[f.Name] = true })
 	for _, e := range envVars {
 		v, ok := os.LookupEnv(e.env)
-		if !ok || onCLI[e.flag] {
+		if !ok || v == "" || onCLI[e.flag] {
 			continue
 		}
 		if err := fs.Set(e.flag, v); err != nil {

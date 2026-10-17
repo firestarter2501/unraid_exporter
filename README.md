@@ -64,12 +64,14 @@ docker compose -f deploy/compose.yaml up -d
 | `UNRAID_INSECURE_SKIP_VERIFY` | `--unraid.insecure-skip-verify` | `false` | https で自己署名証明書を許可する |
 | `UNRAID_TIMEOUT` | `--unraid.timeout` | `10s` | スクレイプ 1 回あたりのタイムアウト（Go の duration 形式） |
 | `UNRAID_EXPORTER_COLLECTORS` | `--collectors` | `disks` 以外すべて（Unraid テンプレートでは `disks` を含むすべて） | 有効にする collector（カンマ区切り） |
-| `UNRAID_EXPORTER_NETWORK_EXCLUDE` | `--collector.network.exclude` | `^(lo\|veth.*)$` | 無視するインターフェース名の正規表現（空文字ならすべて出力）。Docker の veth は作り直すたびに名前が変わるため、デフォルトで除外します |
+| `UNRAID_EXPORTER_NETWORK_EXCLUDE` | `--collector.network.exclude` | `^(lo\|veth.*)$` | 無視するインターフェース名の正規表現（`^$` にするとすべて出力）。Docker の veth は作り直すたびに名前が変わるため、デフォルトで除外します |
 | `UNRAID_EXPORTER_LISTEN_ADDRESS` | `--web.listen-address` | `:9703` | |
 | `UNRAID_EXPORTER_TELEMETRY_PATH` | `--web.telemetry-path` | `/metrics` | |
 | `UNRAID_EXPORTER_LOG_LEVEL` | `--log.level` | `info` | `debug` / `info` / `warn` / `error` |
 
 \* `UNRAID_API_KEY` と `UNRAID_API_KEY_FILE` のどちらか一方が必須です。
+
+空の環境変数は未設定として扱い、デフォルト値を使います（Unraid は空欄の項目も空文字の環境変数として渡すため）。
 
 Prometheus の `scrape_timeout` は `UNRAID_TIMEOUT` より長くしてください。
 
