@@ -1,0 +1,7 @@
+# Example Prometheus scrape config.
+scrape_configs:
+  - job_name: unraid
+    scrape_interval: 30s
+    scrape_timeout: 15s
+    static_configs:
+      - targets: ["exporter-host:9703"]

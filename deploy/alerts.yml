@@ -1,0 +1,46 @@
+groups:
+  - name: unraid
+    rules:
+      - alert: UnraidExporterDown
+        expr: unraid_up == 0
+        for: 5m
+        annotations:
+          summary: "Unraid API unreachable from unraid_exporter"
+      - alert: UnraidCollectorFailing
+        expr: unraid_exporter_collector_success == 0
+        for: 15m
+        annotations:
+          summary: "unraid_exporter collector {{ $labels.collector }} is failing"
+      - alert: UnraidArrayNotStarted
+        expr: unraid_array_started == 0
+        for: 5m
+        annotations:
+          summary: "Unraid array is not started"
+      - alert: UnraidDiskNotOK
+        expr: unraid_array_disk_status{status="DISK_OK"} == 0 and on(name) unraid_array_disk_status{status="DISK_NP"} == 0
+        for: 1m
+        annotations:
+          summary: "Unraid disk {{ $labels.name }} is not OK"
+      - alert: UnraidDiskErrors
+        expr: increase(unraid_array_disk_errors_total[1h]) > 0
+        annotations:
+          summary: "Unraid disk {{ $labels.name }} reported I/O errors"
+      - alert: UnraidDiskHot
+        expr: unraid_array_disk_temperature_celsius > 50
+        for: 10m
+        annotations:
+          summary: "Unraid disk {{ $labels.name }} is at {{ $value }}°C"
+      - alert: UnraidDiskAlmostFull
+        expr: unraid_array_disk_fs_used_bytes / unraid_array_disk_fs_size_bytes > unraid_array_disk_critical_threshold_ratio
+        for: 30m
+        annotations:
+          summary: "Unraid disk {{ $labels.name }} is above its critical fill threshold"
+      - alert: UnraidParityCheckErrors
+        expr: unraid_parity_check_errors > 0 and unraid_parity_check_running == 0
+        annotations:
+          summary: "Last Unraid parity check found {{ $value }} errors"
+      - alert: UnraidUPSOnBattery
+        expr: unraid_ups_online == 0
+        for: 1m
+        annotations:
+          summary: "UPS {{ $labels.ups }} is not on mains power"

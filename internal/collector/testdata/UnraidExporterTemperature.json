@@ -1,0 +1,4 @@
+{"data":{"metrics":{"temperature":{"sensors":[
+  {"id":"cpu:package","name":"CPU Package","type":"CPU_PACKAGE","location":"k10temp","warning":80,"critical":95,"current":{"value":52.5,"unit":"CELSIUS","status":"NORMAL"}},
+  {"id":"mb:1","name":"Motherboard","type":"MOTHERBOARD","location":null,"warning":null,"critical":null,"current":{"value":104,"unit":"FAHRENHEIT","status":"NORMAL"}}
+]}}}}

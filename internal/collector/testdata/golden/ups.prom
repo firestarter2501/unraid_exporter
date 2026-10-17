@@ -1,0 +1,33 @@
+# HELP unraid_exporter_collector_success Whether the collector succeeded.
+# TYPE unraid_exporter_collector_success gauge
+unraid_exporter_collector_success{collector="ups"} 1
+# HELP unraid_up Whether the Unraid API could be reached (1 if at least one collector succeeded).
+# TYPE unraid_up gauge
+unraid_up 1
+# HELP unraid_ups_battery_charge_ratio UPS battery charge.
+# TYPE unraid_ups_battery_charge_ratio gauge
+unraid_ups_battery_charge_ratio{model="Back-UPS ES 700",ups="APC Back-UPS"} 1
+# HELP unraid_ups_battery_runtime_seconds Estimated runtime on battery.
+# TYPE unraid_ups_battery_runtime_seconds gauge
+unraid_ups_battery_runtime_seconds{model="Back-UPS ES 700",ups="APC Back-UPS"} 2400
+# HELP unraid_ups_info UPS information.
+# TYPE unraid_ups_info gauge
+unraid_ups_info{battery_health="Good",model="Back-UPS ES 700",status="Online",ups="APC Back-UPS"} 1
+# HELP unraid_ups_input_voltage_volts UPS input voltage.
+# TYPE unraid_ups_input_voltage_volts gauge
+unraid_ups_input_voltage_volts{model="Back-UPS ES 700",ups="APC Back-UPS"} 230
+# HELP unraid_ups_load_ratio UPS load relative to its capacity.
+# TYPE unraid_ups_load_ratio gauge
+unraid_ups_load_ratio{model="Back-UPS ES 700",ups="APC Back-UPS"} 0.18
+# HELP unraid_ups_nominal_power_watts UPS nominal power.
+# TYPE unraid_ups_nominal_power_watts gauge
+unraid_ups_nominal_power_watts{model="Back-UPS ES 700",ups="APC Back-UPS"} 405
+# HELP unraid_ups_online Whether the UPS is running on mains power.
+# TYPE unraid_ups_online gauge
+unraid_ups_online{model="Back-UPS ES 700",ups="APC Back-UPS"} 1
+# HELP unraid_ups_output_voltage_volts UPS output voltage.
+# TYPE unraid_ups_output_voltage_volts gauge
+unraid_ups_output_voltage_volts{model="Back-UPS ES 700",ups="APC Back-UPS"} 230
+# HELP unraid_ups_power_watts Current UPS power draw.
+# TYPE unraid_ups_power_watts gauge
+unraid_ups_power_watts{model="Back-UPS ES 700",ups="APC Back-UPS"} 72.9

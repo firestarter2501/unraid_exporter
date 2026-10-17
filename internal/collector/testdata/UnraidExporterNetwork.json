@@ -1,0 +1,4 @@
+{"data":{"metrics":{"network":[
+  {"name":"eth0","operstate":"up","bytesReceived":"123456789012","bytesSent":"98765432109","packetsReceived":1000000,"packetsSent":900000,"receiveErrors":0,"transmitErrors":1,"receiveDropped":2,"transmitDropped":0},
+  {"name":"eth1","operstate":"down","bytesReceived":0,"bytesSent":0,"packetsReceived":0,"packetsSent":0,"receiveErrors":0,"transmitErrors":0,"receiveDropped":0,"transmitDropped":0}
+]}}}

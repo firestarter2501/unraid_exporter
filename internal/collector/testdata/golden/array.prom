@@ -1,0 +1,197 @@
+# HELP unraid_array_disk_color_info Array disk status color as shown in the Unraid UI.
+# TYPE unraid_array_disk_color_info gauge
+unraid_array_disk_color_info{color="GREEN_BLINK",device="sdd",name="disk2",type="data"} 1
+unraid_array_disk_color_info{color="GREEN_ON",device="nvme0n1",name="cache",type="cache"} 1
+unraid_array_disk_color_info{color="GREEN_ON",device="sda",name="flash",type="flash"} 1
+unraid_array_disk_color_info{color="GREEN_ON",device="sdb",name="parity",type="parity"} 1
+unraid_array_disk_color_info{color="GREEN_ON",device="sdc",name="disk1",type="data"} 1
+# HELP unraid_array_disk_critical_threshold_ratio Disk utilization critical threshold.
+# TYPE unraid_array_disk_critical_threshold_ratio gauge
+unraid_array_disk_critical_threshold_ratio{device="nvme0n1",name="cache",type="cache"} 0.9
+unraid_array_disk_critical_threshold_ratio{device="sdc",name="disk1",type="data"} 0.9
+unraid_array_disk_critical_threshold_ratio{device="sdd",name="disk2",type="data"} 0.9
+# HELP unraid_array_disk_errors_total Unrecoverable I/O errors.
+# TYPE unraid_array_disk_errors_total counter
+unraid_array_disk_errors_total{device="nvme0n1",name="cache",type="cache"} 0
+unraid_array_disk_errors_total{device="sda",name="flash",type="flash"} 0
+unraid_array_disk_errors_total{device="sdb",name="parity",type="parity"} 0
+unraid_array_disk_errors_total{device="sdc",name="disk1",type="data"} 0
+unraid_array_disk_errors_total{device="sdd",name="disk2",type="data"} 0
+# HELP unraid_array_disk_fs_free_bytes Array disk filesystem free space.
+# TYPE unraid_array_disk_fs_free_bytes gauge
+unraid_array_disk_fs_free_bytes{device="nvme0n1",name="cache",type="cache"} 4.88204853248e+11
+unraid_array_disk_fs_free_bytes{device="sda",name="flash",type="flash"} 3.072e+10
+unraid_array_disk_fs_free_bytes{device="sdc",name="disk1",type="data"} 3.90342617088e+12
+unraid_array_disk_fs_free_bytes{device="sdd",name="disk2",type="data"} 3.26457382912e+12
+# HELP unraid_array_disk_fs_size_bytes Array disk filesystem size.
+# TYPE unraid_array_disk_fs_size_bytes gauge
+unraid_array_disk_fs_size_bytes{device="nvme0n1",name="cache",type="cache"} 1.000204853248e+12
+unraid_array_disk_fs_size_bytes{device="sda",name="flash",type="flash"} 3.2017047552e+10
+unraid_array_disk_fs_size_bytes{device="sdc",name="disk1",type="data"} 7.99942617088e+12
+unraid_array_disk_fs_size_bytes{device="sdd",name="disk2",type="data"} 4.096e+12
+# HELP unraid_array_disk_fs_used_bytes Array disk filesystem used space.
+# TYPE unraid_array_disk_fs_used_bytes gauge
+unraid_array_disk_fs_used_bytes{device="nvme0n1",name="cache",type="cache"} 5.12e+11
+unraid_array_disk_fs_used_bytes{device="sda",name="flash",type="flash"} 1.297047552e+09
+unraid_array_disk_fs_used_bytes{device="sdc",name="disk1",type="data"} 4.096e+12
+unraid_array_disk_fs_used_bytes{device="sdd",name="disk2",type="data"} 8.3142617088e+11
+# HELP unraid_array_disk_info Array disk information.
+# TYPE unraid_array_disk_info gauge
+unraid_array_disk_info{device="nvme0n1",fs_type="btrfs",idx="30",name="cache",rotational="false",transport="nvme",type="cache"} 1
+unraid_array_disk_info{device="sda",fs_type="vfat",idx="54",name="flash",rotational="false",transport="usb",type="flash"} 1
+unraid_array_disk_info{device="sdb",fs_type="",idx="0",name="parity",rotational="true",transport="ata",type="parity"} 1
+unraid_array_disk_info{device="sdc",fs_type="xfs",idx="1",name="disk1",rotational="true",transport="ata",type="data"} 1
+unraid_array_disk_info{device="sdd",fs_type="xfs",idx="2",name="disk2",rotational="true",transport="ata",type="data"} 1
+# HELP unraid_array_disk_reads_total Read I/O requests (may be reset by Unraid).
+# TYPE unraid_array_disk_reads_total counter
+unraid_array_disk_reads_total{device="nvme0n1",name="cache",type="cache"} 999
+unraid_array_disk_reads_total{device="sda",name="flash",type="flash"} 50
+unraid_array_disk_reads_total{device="sdb",name="parity",type="parity"} 1000
+unraid_array_disk_reads_total{device="sdc",name="disk1",type="data"} 123456
+unraid_array_disk_reads_total{device="sdd",name="disk2",type="data"} 10
+# HELP unraid_array_disk_size_bytes Array disk size.
+# TYPE unraid_array_disk_size_bytes gauge
+unraid_array_disk_size_bytes{device="nvme0n1",name="cache",type="cache"} 1.000204853248e+12
+unraid_array_disk_size_bytes{device="sda",name="flash",type="flash"} 3.2017047552e+10
+unraid_array_disk_size_bytes{device="sdb",name="parity",type="parity"} 8.001563168768e+12
+unraid_array_disk_size_bytes{device="sdc",name="disk1",type="data"} 8.001563168768e+12
+unraid_array_disk_size_bytes{device="sdd",name="disk2",type="data"} 8.001563168768e+12
+# HELP unraid_array_disk_slots Array disk slots by usage.
+# TYPE unraid_array_disk_slots gauge
+unraid_array_disk_slots{usage="free"} 26
+unraid_array_disk_slots{usage="total"} 29
+unraid_array_disk_slots{usage="used"} 3
+# HELP unraid_array_disk_spinning Whether the disk is spinning.
+# TYPE unraid_array_disk_spinning gauge
+unraid_array_disk_spinning{device="nvme0n1",name="cache",type="cache"} 1
+unraid_array_disk_spinning{device="sda",name="flash",type="flash"} 1
+unraid_array_disk_spinning{device="sdb",name="parity",type="parity"} 1
+unraid_array_disk_spinning{device="sdc",name="disk1",type="data"} 1
+unraid_array_disk_spinning{device="sdd",name="disk2",type="data"} 0
+# HELP unraid_array_disk_status Array disk status (1 for the current status).
+# TYPE unraid_array_disk_status gauge
+unraid_array_disk_status{device="nvme0n1",name="cache",status="DISK_DSBL",type="cache"} 0
+unraid_array_disk_status{device="nvme0n1",name="cache",status="DISK_DSBL_NEW",type="cache"} 0
+unraid_array_disk_status{device="nvme0n1",name="cache",status="DISK_INVALID",type="cache"} 0
+unraid_array_disk_status{device="nvme0n1",name="cache",status="DISK_NEW",type="cache"} 0
+unraid_array_disk_status{device="nvme0n1",name="cache",status="DISK_NP",type="cache"} 0
+unraid_array_disk_status{device="nvme0n1",name="cache",status="DISK_NP_DSBL",type="cache"} 0
+unraid_array_disk_status{device="nvme0n1",name="cache",status="DISK_NP_MISSING",type="cache"} 0
+unraid_array_disk_status{device="nvme0n1",name="cache",status="DISK_OK",type="cache"} 1
+unraid_array_disk_status{device="nvme0n1",name="cache",status="DISK_WRONG",type="cache"} 0
+unraid_array_disk_status{device="sda",name="flash",status="DISK_DSBL",type="flash"} 0
+unraid_array_disk_status{device="sda",name="flash",status="DISK_DSBL_NEW",type="flash"} 0
+unraid_array_disk_status{device="sda",name="flash",status="DISK_INVALID",type="flash"} 0
+unraid_array_disk_status{device="sda",name="flash",status="DISK_NEW",type="flash"} 0
+unraid_array_disk_status{device="sda",name="flash",status="DISK_NP",type="flash"} 0
+unraid_array_disk_status{device="sda",name="flash",status="DISK_NP_DSBL",type="flash"} 0
+unraid_array_disk_status{device="sda",name="flash",status="DISK_NP_MISSING",type="flash"} 0
+unraid_array_disk_status{device="sda",name="flash",status="DISK_OK",type="flash"} 1
+unraid_array_disk_status{device="sda",name="flash",status="DISK_WRONG",type="flash"} 0
+unraid_array_disk_status{device="sdb",name="parity",status="DISK_DSBL",type="parity"} 0
+unraid_array_disk_status{device="sdb",name="parity",status="DISK_DSBL_NEW",type="parity"} 0
+unraid_array_disk_status{device="sdb",name="parity",status="DISK_INVALID",type="parity"} 0
+unraid_array_disk_status{device="sdb",name="parity",status="DISK_NEW",type="parity"} 0
+unraid_array_disk_status{device="sdb",name="parity",status="DISK_NP",type="parity"} 0
+unraid_array_disk_status{device="sdb",name="parity",status="DISK_NP_DSBL",type="parity"} 0
+unraid_array_disk_status{device="sdb",name="parity",status="DISK_NP_MISSING",type="parity"} 0
+unraid_array_disk_status{device="sdb",name="parity",status="DISK_OK",type="parity"} 1
+unraid_array_disk_status{device="sdb",name="parity",status="DISK_WRONG",type="parity"} 0
+unraid_array_disk_status{device="sdc",name="disk1",status="DISK_DSBL",type="data"} 0
+unraid_array_disk_status{device="sdc",name="disk1",status="DISK_DSBL_NEW",type="data"} 0
+unraid_array_disk_status{device="sdc",name="disk1",status="DISK_INVALID",type="data"} 0
+unraid_array_disk_status{device="sdc",name="disk1",status="DISK_NEW",type="data"} 0
+unraid_array_disk_status{device="sdc",name="disk1",status="DISK_NP",type="data"} 0
+unraid_array_disk_status{device="sdc",name="disk1",status="DISK_NP_DSBL",type="data"} 0
+unraid_array_disk_status{device="sdc",name="disk1",status="DISK_NP_MISSING",type="data"} 0
+unraid_array_disk_status{device="sdc",name="disk1",status="DISK_OK",type="data"} 1
+unraid_array_disk_status{device="sdc",name="disk1",status="DISK_WRONG",type="data"} 0
+unraid_array_disk_status{device="sdd",name="disk2",status="DISK_DSBL",type="data"} 0
+unraid_array_disk_status{device="sdd",name="disk2",status="DISK_DSBL_NEW",type="data"} 0
+unraid_array_disk_status{device="sdd",name="disk2",status="DISK_INVALID",type="data"} 0
+unraid_array_disk_status{device="sdd",name="disk2",status="DISK_NEW",type="data"} 0
+unraid_array_disk_status{device="sdd",name="disk2",status="DISK_NP",type="data"} 0
+unraid_array_disk_status{device="sdd",name="disk2",status="DISK_NP_DSBL",type="data"} 0
+unraid_array_disk_status{device="sdd",name="disk2",status="DISK_NP_MISSING",type="data"} 0
+unraid_array_disk_status{device="sdd",name="disk2",status="DISK_OK",type="data"} 1
+unraid_array_disk_status{device="sdd",name="disk2",status="DISK_WRONG",type="data"} 0
+# HELP unraid_array_disk_temperature_celsius Array disk temperature.
+# TYPE unraid_array_disk_temperature_celsius gauge
+unraid_array_disk_temperature_celsius{device="nvme0n1",name="cache",type="cache"} 45
+unraid_array_disk_temperature_celsius{device="sdb",name="parity",type="parity"} 34
+unraid_array_disk_temperature_celsius{device="sdc",name="disk1",type="data"} 33
+# HELP unraid_array_disk_warning_threshold_ratio Disk utilization warning threshold.
+# TYPE unraid_array_disk_warning_threshold_ratio gauge
+unraid_array_disk_warning_threshold_ratio{device="nvme0n1",name="cache",type="cache"} 0.7
+unraid_array_disk_warning_threshold_ratio{device="sdc",name="disk1",type="data"} 0.7
+unraid_array_disk_warning_threshold_ratio{device="sdd",name="disk2",type="data"} 0.7
+# HELP unraid_array_disk_writes_total Write I/O requests (may be reset by Unraid).
+# TYPE unraid_array_disk_writes_total counter
+unraid_array_disk_writes_total{device="nvme0n1",name="cache",type="cache"} 888
+unraid_array_disk_writes_total{device="sda",name="flash",type="flash"} 5
+unraid_array_disk_writes_total{device="sdb",name="parity",type="parity"} 2000
+unraid_array_disk_writes_total{device="sdc",name="disk1",type="data"} 654321
+unraid_array_disk_writes_total{device="sdd",name="disk2",type="data"} 20
+# HELP unraid_array_free_bytes Free array capacity.
+# TYPE unraid_array_free_bytes gauge
+unraid_array_free_bytes 7.168e+12
+# HELP unraid_array_size_bytes Total array capacity.
+# TYPE unraid_array_size_bytes gauge
+unraid_array_size_bytes 1.2288e+13
+# HELP unraid_array_started Whether the array is started.
+# TYPE unraid_array_started gauge
+unraid_array_started 1
+# HELP unraid_array_state Array state (1 for the current state).
+# TYPE unraid_array_state gauge
+unraid_array_state{state="DISABLE_DISK"} 0
+unraid_array_state{state="INVALID_EXPANSION"} 0
+unraid_array_state{state="NEW_ARRAY"} 0
+unraid_array_state{state="NEW_DISK_TOO_SMALL"} 0
+unraid_array_state{state="NO_DATA_DISKS"} 0
+unraid_array_state{state="PARITY_NOT_BIGGEST"} 0
+unraid_array_state{state="RECON_DISK"} 0
+unraid_array_state{state="STARTED"} 1
+unraid_array_state{state="STOPPED"} 0
+unraid_array_state{state="SWAP_DSBL"} 0
+unraid_array_state{state="TOO_MANY_MISSING_DISKS"} 0
+# HELP unraid_array_used_bytes Used array capacity.
+# TYPE unraid_array_used_bytes gauge
+unraid_array_used_bytes 5.12e+12
+# HELP unraid_exporter_collector_success Whether the collector succeeded.
+# TYPE unraid_exporter_collector_success gauge
+unraid_exporter_collector_success{collector="array"} 1
+# HELP unraid_parity_check_correcting Whether the parity check is correcting.
+# TYPE unraid_parity_check_correcting gauge
+unraid_parity_check_correcting 0
+# HELP unraid_parity_check_duration_seconds Duration of the current or last parity check.
+# TYPE unraid_parity_check_duration_seconds gauge
+unraid_parity_check_duration_seconds 43200
+# HELP unraid_parity_check_errors Errors found by the current or last parity check.
+# TYPE unraid_parity_check_errors gauge
+unraid_parity_check_errors 0
+# HELP unraid_parity_check_paused Whether the parity check is paused.
+# TYPE unraid_parity_check_paused gauge
+unraid_parity_check_paused 0
+# HELP unraid_parity_check_progress_ratio Parity check progress.
+# TYPE unraid_parity_check_progress_ratio gauge
+unraid_parity_check_progress_ratio 1
+# HELP unraid_parity_check_running Whether a parity check is running.
+# TYPE unraid_parity_check_running gauge
+unraid_parity_check_running 0
+# HELP unraid_parity_check_speed_bytes_per_second Speed of the current or last parity check.
+# TYPE unraid_parity_check_speed_bytes_per_second gauge
+unraid_parity_check_speed_bytes_per_second 1.505e+08
+# HELP unraid_parity_check_status Parity check status (1 for the current status).
+# TYPE unraid_parity_check_status gauge
+unraid_parity_check_status{status="CANCELLED"} 0
+unraid_parity_check_status{status="COMPLETED"} 1
+unraid_parity_check_status{status="FAILED"} 0
+unraid_parity_check_status{status="NEVER_RUN"} 0
+unraid_parity_check_status{status="PAUSED"} 0
+unraid_parity_check_status{status="RUNNING"} 0
+# HELP unraid_parity_check_timestamp_seconds Unix time of the current or last parity check.
+# TYPE unraid_parity_check_timestamp_seconds gauge
+unraid_parity_check_timestamp_seconds 1.7908236e+09
+# HELP unraid_up Whether the Unraid API could be reached (1 if at least one collector succeeded).
+# TYPE unraid_up gauge
+unraid_up 1

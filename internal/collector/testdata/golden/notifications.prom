@@ -1,0 +1,14 @@
+# HELP unraid_exporter_collector_success Whether the collector succeeded.
+# TYPE unraid_exporter_collector_success gauge
+unraid_exporter_collector_success{collector="notifications"} 1
+# HELP unraid_notifications Number of notifications by folder and importance.
+# TYPE unraid_notifications gauge
+unraid_notifications{folder="archive",importance="alert"} 2
+unraid_notifications{folder="archive",importance="info"} 40
+unraid_notifications{folder="archive",importance="warning"} 5
+unraid_notifications{folder="unread",importance="alert"} 0
+unraid_notifications{folder="unread",importance="info"} 3
+unraid_notifications{folder="unread",importance="warning"} 1
+# HELP unraid_up Whether the Unraid API could be reached (1 if at least one collector succeeded).
+# TYPE unraid_up gauge
+unraid_up 1

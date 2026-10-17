@@ -1,0 +1,18 @@
+# HELP unraid_exporter_collector_success Whether the collector succeeded.
+# TYPE unraid_exporter_collector_success gauge
+unraid_exporter_collector_success{collector="shares"} 1
+# HELP unraid_share_free_bytes Free space available to the share.
+# TYPE unraid_share_free_bytes gauge
+unraid_share_free_bytes{name="appdata"} 4.88204853248e+11
+unraid_share_free_bytes{name="media"} 7.168e+12
+# HELP unraid_share_size_bytes Share size as reported by Unraid.
+# TYPE unraid_share_size_bytes gauge
+unraid_share_size_bytes{name="appdata"} 0
+unraid_share_size_bytes{name="media"} 0
+# HELP unraid_share_used_bytes Space used by the share.
+# TYPE unraid_share_used_bytes gauge
+unraid_share_used_bytes{name="appdata"} 2.048e+11
+unraid_share_used_bytes{name="media"} 4.608e+12
+# HELP unraid_up Whether the Unraid API could be reached (1 if at least one collector succeeded).
+# TYPE unraid_up gauge
+unraid_up 1

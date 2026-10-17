@@ -1,0 +1,28 @@
+# HELP unraid_exporter_collector_success Whether the collector succeeded.
+# TYPE unraid_exporter_collector_success gauge
+unraid_exporter_collector_success{collector="vms"} 1
+# HELP unraid_up Whether the Unraid API could be reached (1 if at least one collector succeeded).
+# TYPE unraid_up gauge
+unraid_up 1
+# HELP unraid_vm_running Whether the VM is running.
+# TYPE unraid_vm_running gauge
+unraid_vm_running{name="HomeAssistant"} 0
+unraid_vm_running{name="Windows 11"} 1
+# HELP unraid_vm_state VM state (1 for the current state).
+# TYPE unraid_vm_state gauge
+unraid_vm_state{name="HomeAssistant",state="CRASHED"} 0
+unraid_vm_state{name="HomeAssistant",state="IDLE"} 0
+unraid_vm_state{name="HomeAssistant",state="NOSTATE"} 0
+unraid_vm_state{name="HomeAssistant",state="PAUSED"} 0
+unraid_vm_state{name="HomeAssistant",state="PMSUSPENDED"} 0
+unraid_vm_state{name="HomeAssistant",state="RUNNING"} 0
+unraid_vm_state{name="HomeAssistant",state="SHUTDOWN"} 0
+unraid_vm_state{name="HomeAssistant",state="SHUTOFF"} 1
+unraid_vm_state{name="Windows 11",state="CRASHED"} 0
+unraid_vm_state{name="Windows 11",state="IDLE"} 0
+unraid_vm_state{name="Windows 11",state="NOSTATE"} 0
+unraid_vm_state{name="Windows 11",state="PAUSED"} 0
+unraid_vm_state{name="Windows 11",state="PMSUSPENDED"} 0
+unraid_vm_state{name="Windows 11",state="RUNNING"} 1
+unraid_vm_state{name="Windows 11",state="SHUTDOWN"} 0
+unraid_vm_state{name="Windows 11",state="SHUTOFF"} 0

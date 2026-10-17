@@ -1,0 +1,39 @@
+# HELP unraid_docker_container_autostart Whether the container starts automatically.
+# TYPE unraid_docker_container_autostart gauge
+unraid_docker_container_autostart{name="plex"} 1
+unraid_docker_container_autostart{name="sonarr"} 0
+# HELP unraid_docker_container_created_timestamp_seconds Unix time the container was created.
+# TYPE unraid_docker_container_created_timestamp_seconds gauge
+unraid_docker_container_created_timestamp_seconds{name="plex"} 1.76e+09
+unraid_docker_container_created_timestamp_seconds{name="sonarr"} 1.75e+09
+# HELP unraid_docker_container_info Docker container information.
+# TYPE unraid_docker_container_info gauge
+unraid_docker_container_info{id="abc123",image="plexinc/pms-docker:latest",name="plex"} 1
+unraid_docker_container_info{id="def456",image="linuxserver/sonarr:latest",name="sonarr"} 1
+# HELP unraid_docker_container_running Whether the container is running.
+# TYPE unraid_docker_container_running gauge
+unraid_docker_container_running{name="plex"} 1
+unraid_docker_container_running{name="sonarr"} 0
+# HELP unraid_docker_container_state Docker container state (1 for the current state).
+# TYPE unraid_docker_container_state gauge
+unraid_docker_container_state{name="plex",state="EXITED"} 0
+unraid_docker_container_state{name="plex",state="PAUSED"} 0
+unraid_docker_container_state{name="plex",state="RUNNING"} 1
+unraid_docker_container_state{name="sonarr",state="EXITED"} 1
+unraid_docker_container_state{name="sonarr",state="PAUSED"} 0
+unraid_docker_container_state{name="sonarr",state="RUNNING"} 0
+# HELP unraid_docker_container_update_available Whether an image update is available.
+# TYPE unraid_docker_container_update_available gauge
+unraid_docker_container_update_available{name="plex"} 0
+unraid_docker_container_update_available{name="sonarr"} 1
+# HELP unraid_docker_containers Number of containers by state.
+# TYPE unraid_docker_containers gauge
+unraid_docker_containers{state="EXITED"} 1
+unraid_docker_containers{state="PAUSED"} 0
+unraid_docker_containers{state="RUNNING"} 1
+# HELP unraid_exporter_collector_success Whether the collector succeeded.
+# TYPE unraid_exporter_collector_success gauge
+unraid_exporter_collector_success{collector="docker"} 1
+# HELP unraid_up Whether the Unraid API could be reached (1 if at least one collector succeeded).
+# TYPE unraid_up gauge
+unraid_up 1

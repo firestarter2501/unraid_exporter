@@ -1,0 +1,3 @@
+{"data":{"upsDevices":[
+  {"id":"ups1","name":"APC Back-UPS","model":"Back-UPS ES 700","status":"Online","battery":{"chargeLevel":100,"estimatedRuntime":2400,"health":"Good"},"power":{"inputVoltage":230.0,"outputVoltage":230.0,"loadPercentage":18,"nominalPower":405,"currentPower":72.9}}
+]}}

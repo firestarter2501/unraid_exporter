@@ -1,0 +1,42 @@
+# HELP unraid_exporter_collector_success Whether the collector succeeded.
+# TYPE unraid_exporter_collector_success gauge
+unraid_exporter_collector_success{collector="network"} 1
+# HELP unraid_network_receive_bytes_total Bytes received.
+# TYPE unraid_network_receive_bytes_total counter
+unraid_network_receive_bytes_total{interface="eth0"} 1.23456789012e+11
+unraid_network_receive_bytes_total{interface="eth1"} 0
+# HELP unraid_network_receive_dropped_total Received packets dropped.
+# TYPE unraid_network_receive_dropped_total counter
+unraid_network_receive_dropped_total{interface="eth0"} 2
+unraid_network_receive_dropped_total{interface="eth1"} 0
+# HELP unraid_network_receive_errors_total Receive errors.
+# TYPE unraid_network_receive_errors_total counter
+unraid_network_receive_errors_total{interface="eth0"} 0
+unraid_network_receive_errors_total{interface="eth1"} 0
+# HELP unraid_network_receive_packets_total Packets received.
+# TYPE unraid_network_receive_packets_total counter
+unraid_network_receive_packets_total{interface="eth0"} 1e+06
+unraid_network_receive_packets_total{interface="eth1"} 0
+# HELP unraid_network_transmit_bytes_total Bytes transmitted.
+# TYPE unraid_network_transmit_bytes_total counter
+unraid_network_transmit_bytes_total{interface="eth0"} 9.8765432109e+10
+unraid_network_transmit_bytes_total{interface="eth1"} 0
+# HELP unraid_network_transmit_dropped_total Transmitted packets dropped.
+# TYPE unraid_network_transmit_dropped_total counter
+unraid_network_transmit_dropped_total{interface="eth0"} 0
+unraid_network_transmit_dropped_total{interface="eth1"} 0
+# HELP unraid_network_transmit_errors_total Transmit errors.
+# TYPE unraid_network_transmit_errors_total counter
+unraid_network_transmit_errors_total{interface="eth0"} 1
+unraid_network_transmit_errors_total{interface="eth1"} 0
+# HELP unraid_network_transmit_packets_total Packets transmitted.
+# TYPE unraid_network_transmit_packets_total counter
+unraid_network_transmit_packets_total{interface="eth0"} 900000
+unraid_network_transmit_packets_total{interface="eth1"} 0
+# HELP unraid_network_up Whether the interface operstate is up.
+# TYPE unraid_network_up gauge
+unraid_network_up{interface="eth0",operstate="up"} 1
+unraid_network_up{interface="eth1",operstate="down"} 0
+# HELP unraid_up Whether the Unraid API could be reached (1 if at least one collector succeeded).
+# TYPE unraid_up gauge
+unraid_up 1

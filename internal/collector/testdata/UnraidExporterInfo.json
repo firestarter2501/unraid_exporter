@@ -1,0 +1,7 @@
+{"data":{"info":{
+  "time":"2026-10-17T08:00:00.000Z",
+  "os":{"hostname":"tower","uptime":"2026-10-01T00:00:00.000Z","kernel":"6.12.24-Unraid","distro":"Unraid OS","release":"7.2.0","arch":"x64"},
+  "cpu":{"brand":"Ryzen 7 5700G","manufacturer":"AMD","cores":8,"threads":16,"speed":3.8,"speedmax":4.6},
+  "system":{"manufacturer":"ASUS","model":"PRIME B550M-A"},
+  "versions":{"core":{"unraid":"7.2.0","api":"4.25.0","kernel":"6.12.24-Unraid"}}
+}}}

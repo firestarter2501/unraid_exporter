@@ -1,0 +1,58 @@
+# HELP unraid_cpu_core_utilization_ratio Per-CPU utilization by mode.
+# TYPE unraid_cpu_core_utilization_ratio gauge
+unraid_cpu_core_utilization_ratio{cpu="0",mode="guest"} 0
+unraid_cpu_core_utilization_ratio{cpu="0",mode="idle"} 0.8
+unraid_cpu_core_utilization_ratio{cpu="0",mode="irq"} 0
+unraid_cpu_core_utilization_ratio{cpu="0",mode="nice"} 0
+unraid_cpu_core_utilization_ratio{cpu="0",mode="steal"} 0
+unraid_cpu_core_utilization_ratio{cpu="0",mode="system"} 0.05
+unraid_cpu_core_utilization_ratio{cpu="0",mode="user"} 0.15
+unraid_cpu_core_utilization_ratio{cpu="1",mode="guest"} 0
+unraid_cpu_core_utilization_ratio{cpu="1",mode="idle"} 0.95
+unraid_cpu_core_utilization_ratio{cpu="1",mode="irq"} 0
+unraid_cpu_core_utilization_ratio{cpu="1",mode="nice"} 0
+unraid_cpu_core_utilization_ratio{cpu="1",mode="steal"} 0
+unraid_cpu_core_utilization_ratio{cpu="1",mode="system"} 0.02
+unraid_cpu_core_utilization_ratio{cpu="1",mode="user"} 0.03
+# HELP unraid_cpu_utilization_ratio Overall CPU utilization.
+# TYPE unraid_cpu_utilization_ratio gauge
+unraid_cpu_utilization_ratio 0.125
+# HELP unraid_exporter_collector_success Whether the collector succeeded.
+# TYPE unraid_exporter_collector_success gauge
+unraid_exporter_collector_success{collector="metrics"} 1
+# HELP unraid_memory_active_bytes Active memory.
+# TYPE unraid_memory_active_bytes gauge
+unraid_memory_active_bytes 6.442450944e+09
+# HELP unraid_memory_available_bytes Available memory.
+# TYPE unraid_memory_available_bytes gauge
+unraid_memory_available_bytes 2.4964497408e+10
+# HELP unraid_memory_buffcache_bytes Buffer and cache memory.
+# TYPE unraid_memory_buffcache_bytes gauge
+unraid_memory_buffcache_bytes 2.0669530112e+10
+# HELP unraid_memory_free_bytes Free memory.
+# TYPE unraid_memory_free_bytes gauge
+unraid_memory_free_bytes 4.294967296e+09
+# HELP unraid_memory_total_bytes Total memory.
+# TYPE unraid_memory_total_bytes gauge
+unraid_memory_total_bytes 3.3554432e+10
+# HELP unraid_memory_used_bytes Used memory.
+# TYPE unraid_memory_used_bytes gauge
+unraid_memory_used_bytes 8.589934592e+09
+# HELP unraid_memory_utilization_ratio Memory utilization.
+# TYPE unraid_memory_utilization_ratio gauge
+unraid_memory_utilization_ratio 0.256
+# HELP unraid_swap_free_bytes Free swap.
+# TYPE unraid_swap_free_bytes gauge
+unraid_swap_free_bytes 0
+# HELP unraid_swap_total_bytes Total swap.
+# TYPE unraid_swap_total_bytes gauge
+unraid_swap_total_bytes 0
+# HELP unraid_swap_used_bytes Used swap.
+# TYPE unraid_swap_used_bytes gauge
+unraid_swap_used_bytes 0
+# HELP unraid_swap_utilization_ratio Swap utilization.
+# TYPE unraid_swap_utilization_ratio gauge
+unraid_swap_utilization_ratio 0
+# HELP unraid_up Whether the Unraid API could be reached (1 if at least one collector succeeded).
+# TYPE unraid_up gauge
+unraid_up 1

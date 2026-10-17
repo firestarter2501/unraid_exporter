@@ -1,0 +1,26 @@
+# HELP unraid_exporter_collector_success Whether the collector succeeded.
+# TYPE unraid_exporter_collector_success gauge
+unraid_exporter_collector_success{collector="temperature"} 1
+# HELP unraid_temperature_celsius Sensor temperature.
+# TYPE unraid_temperature_celsius gauge
+unraid_temperature_celsius{location="",name="Motherboard",sensor="mb:1",type="MOTHERBOARD"} 40
+unraid_temperature_celsius{location="k10temp",name="CPU Package",sensor="cpu:package",type="CPU_PACKAGE"} 52.5
+# HELP unraid_temperature_critical_celsius Sensor critical threshold.
+# TYPE unraid_temperature_critical_celsius gauge
+unraid_temperature_critical_celsius{location="k10temp",name="CPU Package",sensor="cpu:package",type="CPU_PACKAGE"} 95
+# HELP unraid_temperature_status Sensor status (1 for the current status).
+# TYPE unraid_temperature_status gauge
+unraid_temperature_status{location="",name="Motherboard",sensor="mb:1",status="CRITICAL",type="MOTHERBOARD"} 0
+unraid_temperature_status{location="",name="Motherboard",sensor="mb:1",status="NORMAL",type="MOTHERBOARD"} 1
+unraid_temperature_status{location="",name="Motherboard",sensor="mb:1",status="UNKNOWN",type="MOTHERBOARD"} 0
+unraid_temperature_status{location="",name="Motherboard",sensor="mb:1",status="WARNING",type="MOTHERBOARD"} 0
+unraid_temperature_status{location="k10temp",name="CPU Package",sensor="cpu:package",status="CRITICAL",type="CPU_PACKAGE"} 0
+unraid_temperature_status{location="k10temp",name="CPU Package",sensor="cpu:package",status="NORMAL",type="CPU_PACKAGE"} 1
+unraid_temperature_status{location="k10temp",name="CPU Package",sensor="cpu:package",status="UNKNOWN",type="CPU_PACKAGE"} 0
+unraid_temperature_status{location="k10temp",name="CPU Package",sensor="cpu:package",status="WARNING",type="CPU_PACKAGE"} 0
+# HELP unraid_temperature_warning_celsius Sensor warning threshold.
+# TYPE unraid_temperature_warning_celsius gauge
+unraid_temperature_warning_celsius{location="k10temp",name="CPU Package",sensor="cpu:package",type="CPU_PACKAGE"} 80
+# HELP unraid_up Whether the Unraid API could be reached (1 if at least one collector succeeded).
+# TYPE unraid_up gauge
+unraid_up 1

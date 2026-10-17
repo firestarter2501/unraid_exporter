@@ -1,0 +1,4 @@
+{"data":{"disks":[
+  {"device":"/dev/sdb","name":"WDC WD80EFZZ","vendor":"Western Digital","serialNum":"WD-ABC123","type":"HD","interfaceType":"SATA","size":8001563222016,"smartStatus":"OK","temperature":34,"isSpinning":true},
+  {"device":"/dev/nvme0n1","name":"Samsung SSD 980","vendor":"Samsung","serialNum":"S1234","type":"SSD","interfaceType":"PCIE","size":1000204886016,"smartStatus":"UNKNOWN","temperature":null,"isSpinning":false}
+]}}

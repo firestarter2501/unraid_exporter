@@ -1,0 +1,13 @@
+{"data":{"array":{
+  "state":"STARTED",
+  "capacity":{"kilobytes":{"free":"7000000000","used":"5000000000","total":"12000000000"},"disks":{"free":"26","used":"3","total":"29"}},
+  "parityCheckStatus":{"date":"2026-10-01T03:00:00.000Z","duration":43200,"speed":"150.5","status":"COMPLETED","errors":0,"progress":100,"correcting":false,"paused":false,"running":false},
+  "parities":[{"idx":0,"name":"parity","device":"sdb","size":7814026532,"status":"DISK_OK","rotational":true,"temp":34,"numReads":1000,"numWrites":2000,"numErrors":0,"fsSize":null,"fsFree":null,"fsUsed":null,"type":"PARITY","warning":null,"critical":null,"fsType":null,"transport":"ata","color":"GREEN_ON","isSpinning":true}],
+  "disks":[
+    {"idx":1,"name":"disk1","device":"sdc","size":"7814026532","status":"DISK_OK","rotational":true,"temp":33,"numReads":"123456","numWrites":"654321","numErrors":"0","fsSize":"7811939620","fsFree":"3811939620","fsUsed":"4000000000","type":"DATA","warning":70,"critical":90,"fsType":"xfs","transport":"ata","color":"GREEN_ON","isSpinning":true},
+    {"idx":2,"name":"disk2","device":"sdd","size":7814026532,"status":"DISK_OK","rotational":true,"temp":null,"numReads":10,"numWrites":20,"numErrors":0,"fsSize":4000000000,"fsFree":3188060380,"fsUsed":811939620,"type":"DATA","warning":70,"critical":90,"fsType":"xfs","transport":"ata","color":"GREEN_BLINK","isSpinning":false}
+  ],
+  "caches":[{"idx":30,"name":"cache","device":"nvme0n1","size":976762552,"status":"DISK_OK","rotational":false,"temp":45,"numReads":999,"numWrites":888,"numErrors":0,"fsSize":976762552,"fsFree":476762552,"fsUsed":500000000,"type":"CACHE","warning":70,"critical":90,"fsType":"btrfs","transport":"nvme","color":"GREEN_ON","isSpinning":true}],
+  "boot":{"idx":54,"name":"flash","device":"sda","size":31266648,"status":"DISK_OK","rotational":false,"temp":null,"numReads":50,"numWrites":5,"numErrors":0,"fsSize":31266648,"fsFree":30000000,"fsUsed":1266648,"type":"FLASH","warning":null,"critical":null,"fsType":"vfat","transport":"usb","color":"GREEN_ON","isSpinning":true}
+}},
+"errors":[{"message":"Int cannot represent non-integer value: NaN","path":["array","disks",1,"temp"]}]}

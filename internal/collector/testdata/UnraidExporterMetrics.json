@@ -1,0 +1,6 @@
+{"data":{"metrics":{
+  "cpu":{"percentTotal":12.5,"cpus":[
+    {"percentTotal":20,"percentUser":15,"percentSystem":5,"percentNice":0,"percentIdle":80,"percentIrq":0,"percentGuest":0,"percentSteal":0},
+    {"percentTotal":5,"percentUser":3,"percentSystem":2,"percentNice":0,"percentIdle":95,"percentIrq":0,"percentGuest":0,"percentSteal":0}]},
+  "memory":{"total":"33554432000","used":"8589934592","free":"4294967296","available":"24964497408","active":"6442450944","buffcache":"20669530112","percentTotal":25.6,"swapTotal":0,"swapUsed":0,"swapFree":0,"percentSwapTotal":0}
+}}}

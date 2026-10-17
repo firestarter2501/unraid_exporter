@@ -1,0 +1,25 @@
+# HELP unraid_disk_info Physical disk information.
+# TYPE unraid_disk_info gauge
+unraid_disk_info{device="/dev/nvme0n1",interface="PCIE",name="Samsung SSD 980",serial="S1234",type="SSD",vendor="Samsung"} 1
+unraid_disk_info{device="/dev/sdb",interface="SATA",name="WDC WD80EFZZ",serial="WD-ABC123",type="HD",vendor="Western Digital"} 1
+# HELP unraid_disk_size_bytes Physical disk size.
+# TYPE unraid_disk_size_bytes gauge
+unraid_disk_size_bytes{device="/dev/nvme0n1"} 1.000204886016e+12
+unraid_disk_size_bytes{device="/dev/sdb"} 8.001563222016e+12
+# HELP unraid_disk_smart_ok Whether the SMART status is OK.
+# TYPE unraid_disk_smart_ok gauge
+unraid_disk_smart_ok{device="/dev/nvme0n1"} 0
+unraid_disk_smart_ok{device="/dev/sdb"} 1
+# HELP unraid_disk_spinning Whether the disk is spinning.
+# TYPE unraid_disk_spinning gauge
+unraid_disk_spinning{device="/dev/nvme0n1"} 0
+unraid_disk_spinning{device="/dev/sdb"} 1
+# HELP unraid_disk_temperature_celsius Physical disk temperature.
+# TYPE unraid_disk_temperature_celsius gauge
+unraid_disk_temperature_celsius{device="/dev/sdb"} 34
+# HELP unraid_exporter_collector_success Whether the collector succeeded.
+# TYPE unraid_exporter_collector_success gauge
+unraid_exporter_collector_success{collector="disks"} 1
+# HELP unraid_up Whether the Unraid API could be reached (1 if at least one collector succeeded).
+# TYPE unraid_up gauge
+unraid_up 1

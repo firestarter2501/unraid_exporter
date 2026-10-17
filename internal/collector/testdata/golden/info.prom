@@ -1,0 +1,30 @@
+# HELP unraid_boot_time_seconds Unix time the server booted.
+# TYPE unraid_boot_time_seconds gauge
+unraid_boot_time_seconds 1.7908128e+09
+# HELP unraid_cpu_cores Number of physical CPU cores.
+# TYPE unraid_cpu_cores gauge
+unraid_cpu_cores 8
+# HELP unraid_cpu_frequency_hertz CPU base frequency.
+# TYPE unraid_cpu_frequency_hertz gauge
+unraid_cpu_frequency_hertz 3.8e+09
+# HELP unraid_cpu_frequency_max_hertz CPU maximum frequency.
+# TYPE unraid_cpu_frequency_max_hertz gauge
+unraid_cpu_frequency_max_hertz 4.6e+09
+# HELP unraid_cpu_threads Number of CPU threads.
+# TYPE unraid_cpu_threads gauge
+unraid_cpu_threads 16
+# HELP unraid_exporter_collector_success Whether the collector succeeded.
+# TYPE unraid_exporter_collector_success gauge
+unraid_exporter_collector_success{collector="info"} 1
+# HELP unraid_hardware_info Unraid server hardware information.
+# TYPE unraid_hardware_info gauge
+unraid_hardware_info{cpu_brand="Ryzen 7 5700G",cpu_manufacturer="AMD",system_manufacturer="ASUS",system_model="PRIME B550M-A"} 1
+# HELP unraid_info Unraid server information.
+# TYPE unraid_info gauge
+unraid_info{api_version="4.25.0",arch="x64",hostname="tower",kernel="6.12.24-Unraid",unraid_version="7.2.0"} 1
+# HELP unraid_time_seconds Current server time reported by the Unraid API.
+# TYPE unraid_time_seconds gauge
+unraid_time_seconds 1.792224e+09
+# HELP unraid_up Whether the Unraid API could be reached (1 if at least one collector succeeded).
+# TYPE unraid_up gauge
+unraid_up 1

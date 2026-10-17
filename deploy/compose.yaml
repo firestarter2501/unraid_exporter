@@ -1,0 +1,15 @@
+# For Docker on Unraid with the "Docker Compose Manager" plugin, or plain
+# `docker compose`:
+#   cp unraid-exporter.env.example unraid-exporter.env   # and edit it
+#   docker compose up -d
+services:
+  unraid-exporter:
+    image: ghcr.io/firestarter2501/unraid_exporter:latest
+    container_name: unraid-exporter
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    ports:
+      - "9703:9703"
+    env_file: unraid-exporter.env

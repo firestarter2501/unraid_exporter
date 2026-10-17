@@ -1,0 +1,4 @@
+{"data":{"docker":{"containers":[
+  {"id":"docker:abc123","names":["/plex"],"image":"plexinc/pms-docker:latest","state":"RUNNING","created":1760000000,"autoStart":true,"isUpdateAvailable":false},
+  {"id":"docker:def456","names":["/sonarr"],"image":"linuxserver/sonarr:latest","state":"EXITED","created":1750000000,"autoStart":false,"isUpdateAvailable":true}
+]}}}

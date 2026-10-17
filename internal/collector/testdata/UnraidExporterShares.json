@@ -1,0 +1,4 @@
+{"data":{"shares":[
+  {"name":"appdata","free":476762552,"used":200000000,"size":0,"cache":true,"comment":"application data"},
+  {"name":"media","free":"7000000000","used":"4500000000","size":"0","cache":false,"comment":""}
+]}}
