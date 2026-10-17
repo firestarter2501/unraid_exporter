@@ -22,8 +22,8 @@ func clearEnv(t *testing.T) {
 }
 
 func TestEveryFlagHasEnvVar(t *testing.T) {
-	var ne, ll string
-	fs := newFlagSet(&config{}, &ne, &ll)
+	var raw rawFlags
+	fs := newFlagSet(&config{}, &raw)
 	mapped := map[string]bool{}
 	for _, e := range envVars {
 		mapped[e.flag] = true
@@ -50,6 +50,7 @@ func TestParseEnvOnly(t *testing.T) {
 		"UNRAID_TIMEOUT":                  "3s",
 		"UNRAID_EXPORTER_COLLECTORS":      "info,array",
 		"UNRAID_EXPORTER_NETWORK_EXCLUDE": "^eth9$",
+		"UNRAID_EXPORTER_NETWORK_INCLUDE": "^br0$",
 		"UNRAID_EXPORTER_LOG_LEVEL":       "debug",
 		"UNRAID_EXPORTER_LISTEN_ADDRESS":  ":9999",
 		"UNRAID_EXPORTER_TELEMETRY_PATH":  "/m",
@@ -61,7 +62,7 @@ func TestParseEnvOnly(t *testing.T) {
 		t.Fatal(err)
 	}
 	if cfg.unraidURL != "http://tower" || cfg.apiKey != "secret" || !cfg.insecure || cfg.timeout != 3*time.Second ||
-		cfg.collectors != "info,array" || cfg.netExclude.String() != "^eth9$" || cfg.logLevel != slog.LevelDebug ||
+		cfg.collectors != "info,array" || cfg.netExclude.String() != "^eth9$" || cfg.netInclude.String() != "^br0$" || cfg.logLevel != slog.LevelDebug ||
 		cfg.listenAddress != ":9999" || cfg.metricsPath != "/m" {
 		t.Errorf("unexpected config: %+v", cfg)
 	}
@@ -107,6 +108,7 @@ func TestParseErrors(t *testing.T) {
 		{"zero duration", map[string]string{"UNRAID_TIMEOUT": "0s"}, "UNRAID_TIMEOUT"},
 		{"bad level", map[string]string{"UNRAID_EXPORTER_LOG_LEVEL": "loud"}, "UNRAID_EXPORTER_LOG_LEVEL"},
 		{"bad regexp", map[string]string{"UNRAID_EXPORTER_NETWORK_EXCLUDE": "("}, "UNRAID_EXPORTER_NETWORK_EXCLUDE"},
+		{"bad include regexp", map[string]string{"UNRAID_EXPORTER_NETWORK_INCLUDE": "(br0"}, "UNRAID_EXPORTER_NETWORK_INCLUDE"},
 		{"missing key file", map[string]string{"UNRAID_API_KEY_FILE": "/nonexistent"}, "UNRAID_API_KEY_FILE"},
 	}
 	for _, c := range cases {

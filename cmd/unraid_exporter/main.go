@@ -35,6 +35,7 @@ type config struct {
 	insecure      bool
 	timeout       time.Duration
 	collectors    string
+	netInclude    *regexp.Regexp
 	netExclude    *regexp.Regexp
 	logLevel      slog.Level
 	showVersion   bool
@@ -54,13 +55,18 @@ var envVars = []struct{ flag, env string }{
 	{"unraid.insecure-skip-verify", "UNRAID_INSECURE_SKIP_VERIFY"},
 	{"unraid.timeout", "UNRAID_TIMEOUT"},
 	{"collectors", "UNRAID_EXPORTER_COLLECTORS"},
+	{"collector.network.include", "UNRAID_EXPORTER_NETWORK_INCLUDE"},
 	{"collector.network.exclude", "UNRAID_EXPORTER_NETWORK_EXCLUDE"},
 	{"log.level", "UNRAID_EXPORTER_LOG_LEVEL"},
 }
 
-// newFlagSet defines all flags. Raw string values that need further
-// validation are written to netExclude and logLevel.
-func newFlagSet(c *config, netExclude, logLevel *string) *flag.FlagSet {
+// rawFlags holds flag values that are validated after parsing.
+type rawFlags struct {
+	netInclude, netExclude, logLevel string
+}
+
+// newFlagSet defines all flags.
+func newFlagSet(c *config, raw *rawFlags) *flag.FlagSet {
 	fs := flag.NewFlagSet("unraid_exporter", flag.ContinueOnError)
 	fs.StringVar(&c.listenAddress, "web.listen-address", ":9703", "Address to listen on.")
 	fs.StringVar(&c.metricsPath, "web.telemetry-path", "/metrics", "Path under which to expose metrics.")
@@ -71,8 +77,9 @@ func newFlagSet(c *config, netExclude, logLevel *string) *flag.FlagSet {
 	fs.DurationVar(&c.timeout, "unraid.timeout", 10*time.Second, "Timeout for a scrape of the Unraid API.")
 	fs.StringVar(&c.collectors, "collectors", strings.Join(collector.Defaults(), ","),
 		"Comma-separated collectors to enable (available: "+strings.Join(collector.Available(), ",")+").")
-	fs.StringVar(netExclude, "collector.network.exclude", "^(lo|veth.*)$", "Regexp of network interfaces to ignore (^$ keeps all).")
-	fs.StringVar(logLevel, "log.level", "info", "Log level: debug, info, warn, error.")
+	fs.StringVar(&raw.netInclude, "collector.network.include", "", "Regexp of network interfaces to keep, e.g. ^br0$ (empty keeps all). Applied before the exclude.")
+	fs.StringVar(&raw.netExclude, "collector.network.exclude", "^(lo|veth.*)$", "Regexp of network interfaces to ignore (^$ keeps all).")
+	fs.StringVar(&raw.logLevel, "log.level", "info", "Log level: debug, info, warn, error.")
 	fs.BoolVar(&c.showVersion, "version", false, "Print version and exit.")
 	fs.BoolVar(&c.healthcheck, "healthcheck", false, "Check that the exporter listening on --web.listen-address is healthy and exit (for Docker HEALTHCHECK).")
 	for _, e := range envVars {
@@ -84,8 +91,8 @@ func newFlagSet(c *config, netExclude, logLevel *string) *flag.FlagSet {
 
 func parseFlags(args []string) (*config, error) {
 	c := &config{}
-	var netExclude, logLevel string
-	fs := newFlagSet(c, &netExclude, &logLevel)
+	var raw rawFlags
+	fs := newFlagSet(c, &raw)
 	if err := fs.Parse(args); err != nil {
 		return nil, err
 	}
@@ -105,15 +112,15 @@ func parseFlags(args []string) (*config, error) {
 		return c, nil
 	}
 
-	if err := c.logLevel.UnmarshalText([]byte(logLevel)); err != nil {
-		return nil, fmt.Errorf("invalid log level %q (UNRAID_EXPORTER_LOG_LEVEL): %w", logLevel, err)
+	if err := c.logLevel.UnmarshalText([]byte(raw.logLevel)); err != nil {
+		return nil, fmt.Errorf("invalid log level %q (UNRAID_EXPORTER_LOG_LEVEL): %w", raw.logLevel, err)
 	}
-	if netExclude != "" {
-		re, err := regexp.Compile(netExclude)
-		if err != nil {
-			return nil, fmt.Errorf("invalid network exclude regexp (UNRAID_EXPORTER_NETWORK_EXCLUDE): %w", err)
-		}
-		c.netExclude = re
+	var err error
+	if c.netInclude, err = compileOptional(raw.netInclude, "UNRAID_EXPORTER_NETWORK_INCLUDE"); err != nil {
+		return nil, err
+	}
+	if c.netExclude, err = compileOptional(raw.netExclude, "UNRAID_EXPORTER_NETWORK_EXCLUDE"); err != nil {
+		return nil, err
 	}
 	if c.timeout <= 0 {
 		return nil, errors.New("timeout (UNRAID_TIMEOUT) must be positive")
@@ -132,6 +139,18 @@ func parseFlags(args []string) (*config, error) {
 		return nil, errors.New("an API key is required: set UNRAID_API_KEY or UNRAID_API_KEY_FILE")
 	}
 	return c, nil
+}
+
+// compileOptional compiles a regexp setting; an empty value yields nil.
+func compileOptional(expr, env string) (*regexp.Regexp, error) {
+	if expr == "" {
+		return nil, nil
+	}
+	re, err := regexp.Compile(expr)
+	if err != nil {
+		return nil, fmt.Errorf("invalid regexp for %s: %w", env, err)
+	}
+	return re, nil
 }
 
 // healthcheck queries /-/healthy on the local listen address.
@@ -195,7 +214,7 @@ func main() {
 		logger.Error("creating Unraid client", "err", err)
 		os.Exit(2)
 	}
-	opts := collector.Options{Timeout: cfg.timeout, Logger: logger, NetworkExclude: cfg.netExclude}
+	opts := collector.Options{Timeout: cfg.timeout, Logger: logger, NetworkInclude: cfg.netInclude, NetworkExclude: cfg.netExclude}
 	exp, err := collector.New(client, strings.Split(cfg.collectors, ","), opts)
 	if err != nil {
 		logger.Error("creating exporter", "err", err)

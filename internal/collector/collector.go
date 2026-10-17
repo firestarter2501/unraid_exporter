@@ -33,6 +33,8 @@ type Options struct {
 	// Timeout bounds a whole scrape of the Unraid API.
 	Timeout time.Duration
 	Logger  *slog.Logger
+	// NetworkInclude keeps only network interfaces whose name matches (nil keeps all).
+	NetworkInclude *regexp.Regexp
 	// NetworkExclude drops network interfaces whose name matches (nil keeps all).
 	NetworkExclude *regexp.Regexp
 }

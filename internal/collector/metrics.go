@@ -13,7 +13,9 @@ import (
 func init() {
 	register("metrics", true, func(Options) subCollector { return &metricsCollector{} })
 	register("temperature", true, func(Options) subCollector { return &temperatureCollector{} })
-	register("network", true, func(o Options) subCollector { return &networkCollector{exclude: o.NetworkExclude} })
+	register("network", true, func(o Options) subCollector {
+		return &networkCollector{include: o.NetworkInclude, exclude: o.NetworkExclude}
+	})
 }
 
 const metricsQuery = `query UnraidExporterMetrics {
@@ -239,6 +241,7 @@ type networkResponse struct {
 }
 
 type networkCollector struct {
+	include *regexp.Regexp
 	exclude *regexp.Regexp
 }
 
@@ -249,7 +252,7 @@ func (c *networkCollector) Update(ctx context.Context, q Querier, ch chan<- prom
 		return err
 	}
 	for _, n := range r.Metrics.Network {
-		if c.exclude != nil && c.exclude.MatchString(n.Name) {
+		if (c.include != nil && !c.include.MatchString(n.Name)) || (c.exclude != nil && c.exclude.MatchString(n.Name)) {
 			continue
 		}
 		if n.Operstate != nil {

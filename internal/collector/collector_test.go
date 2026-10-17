@@ -221,3 +221,19 @@ func TestEmhttpDiskID(t *testing.T) {
 		}
 	}
 }
+
+func TestNetworkInclude(t *testing.T) {
+	srv := httptest.NewServer(mockunraid.Handler("testdata", testKey))
+	defer srv.Close()
+	client, _ := unraid.NewClient(unraid.Options{URL: srv.URL, APIKey: testKey, Timeout: 5 * time.Second})
+	exp, err := New(client, []string{"network"}, Options{Timeout: 5 * time.Second, NetworkInclude: regexp.MustCompile(`^eth1$`)})
+	if err != nil {
+		t.Fatal(err)
+	}
+	reg := prometheus.NewPedanticRegistry()
+	reg.MustRegister(exp)
+	got := gatherText(t, reg)
+	if strings.Contains(got, `interface="eth0"`) || !strings.Contains(got, `interface="eth1"`) {
+		t.Errorf("include not applied:\n%s", got)
+	}
+}

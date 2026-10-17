@@ -44,9 +44,8 @@ func TestUnraidTemplate(t *testing.T) {
 		t.Errorf("Network = %q", tpl.Network)
 	}
 
-	var ne, ll string
-	defaults := &config{}
-	fs := newFlagSet(defaults, &ne, &ll)
+	var raw rawFlags
+	fs := newFlagSet(&config{}, &raw)
 	envToFlag := map[string]string{}
 	for _, e := range envVars {
 		envToFlag[e.env] = e.flag
