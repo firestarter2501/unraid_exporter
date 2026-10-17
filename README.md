@@ -63,7 +63,7 @@ docker compose -f deploy/compose.yaml up -d
 | `UNRAID_API_KEY_FILE` | `--unraid.api-key-file` | | API キーを書いたファイル。`UNRAID_API_KEY` より優先されます。コンテナの uid 65532 から読める権限が必要です |
 | `UNRAID_INSECURE_SKIP_VERIFY` | `--unraid.insecure-skip-verify` | `false` | https で自己署名証明書を許可する |
 | `UNRAID_TIMEOUT` | `--unraid.timeout` | `10s` | スクレイプ 1 回あたりのタイムアウト（Go の duration 形式） |
-| `UNRAID_EXPORTER_COLLECTORS` | `--collectors` | `disks` 以外すべて | 有効にする collector（カンマ区切り） |
+| `UNRAID_EXPORTER_COLLECTORS` | `--collectors` | `disks` 以外すべて（Unraid テンプレートでは `disks` を含むすべて） | 有効にする collector（カンマ区切り） |
 | `UNRAID_EXPORTER_NETWORK_EXCLUDE` | `--collector.network.exclude` | `^(lo\|veth.*)$` | 無視するインターフェース名の正規表現（空文字ならすべて出力）。Docker の veth は作り直すたびに名前が変わるため、デフォルトで除外します |
 | `UNRAID_EXPORTER_LISTEN_ADDRESS` | `--web.listen-address` | `:9703` | |
 | `UNRAID_EXPORTER_TELEMETRY_PATH` | `--web.telemetry-path` | `/metrics` | |
@@ -89,7 +89,7 @@ Prometheus の `scrape_timeout` は `UNRAID_TIMEOUT` より長くしてくださ
 | `shares` | ✓ | `unraid_share_{free,used,size}_bytes{name}` |
 | `notifications` | ✓ | `unraid_notifications{folder,importance}` |
 | `ups` | ✓ | `unraid_ups_{info,online,battery_charge_ratio,battery_runtime_seconds,input_voltage_volts,output_voltage_volts,load_ratio,nominal_power_watts,power_watts}` |
-| `disks` | | `unraid_disk_{info,size_bytes,temperature_celsius,smart_ok,spinning}{device}`：物理ディスクの情報。全ディスクに `smartctl -a` が走るため、デフォルトでは無効です。モデル名とシリアル番号は `unraid_array_disk_info` の `disk_id` で、ディスクを起こさずに取れます |
+| `disks` | | `unraid_disk_{info,size_bytes,temperature_celsius,smart_ok,spinning}{device}`：物理ディスクの情報。全ディスクに `smartctl -a` が走るため、exporter のデフォルトでは無効です（Unraid テンプレートでは有効）。モデル名とシリアル番号は `unraid_array_disk_info` の `disk_id` で、ディスクを起こさずに取れます |
 
 exporter 自身のメトリクス：`unraid_up`, `unraid_exporter_collector_success{collector}`, `unraid_exporter_collector_duration_seconds{collector}`, `unraid_exporter_build_info`
 
@@ -105,7 +105,7 @@ Unraid API（4.37.5）のソースと実機で確認した内容です。
 | `temperature` ※ | 内部で `disks` と同じ処理を呼び、全ディスクに `smartctl -a`（`-n standby` なし）を実行（約 1.2 秒） | **起こしうる** |
 | `disks` | 要求したフィールドに関係なく、全ディスクに `smartctl -a` を実行 | **起こしうる** |
 
-SSD は回転しないので、どれを使っても問題ありません。HDD をスピンダウンさせている（Settings → Disk Settings → Default spin down delay が Never 以外の）環境では、`UNRAID_EXPORTER_COLLECTORS` から `temperature` を外してください。ディスク温度は `array` の `unraid_array_disk_temperature_celsius` で、スピンダウン中のディスクを起こさずに取れます（スピンダウン中は出力されません）。外すと CPU やマザーボードの温度は取れなくなります。
+SSD は回転しないので、どれを使っても問題ありません。HDD をスピンダウンさせている（Settings → Disk Settings → Default spin down delay が Never 以外の）環境では、`UNRAID_EXPORTER_COLLECTORS` から `temperature` と `disks` を外してください（Unraid テンプレートは `disks` を有効にしています）。ディスク温度は `array` の `unraid_array_disk_temperature_celsius` で、スピンダウン中のディスクを起こさずに取れます（スピンダウン中は出力されません）。外すと CPU やマザーボードの温度は取れなくなります。
 
 実機（Unraid 7.3.3 / API 4.37.5）で確認した API 側の挙動：
 

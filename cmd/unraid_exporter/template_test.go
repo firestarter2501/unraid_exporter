@@ -3,8 +3,11 @@ package main
 import (
 	"encoding/xml"
 	"os"
+	"slices"
 	"strings"
 	"testing"
+
+	"github.com/firestarter2501/unraid_exporter/internal/collector"
 )
 
 type unraidTemplate struct {
@@ -66,7 +69,15 @@ func TestUnraidTemplate(t *testing.T) {
 				continue
 			}
 			seen[c.Target] = true
-			if def := fs.Lookup(flagName).DefValue; c.Default != def {
+			if c.Target == "UNRAID_EXPORTER_COLLECTORS" {
+				// The template may enable more collectors than the exporter
+				// default (e.g. disks), but only existing ones.
+				for _, name := range strings.Split(c.Default, ",") {
+					if !slices.Contains(collector.Available(), name) {
+						t.Errorf("template enables unknown collector %q", name)
+					}
+				}
+			} else if def := fs.Lookup(flagName).DefValue; c.Default != def {
 				t.Errorf("%s: template default %q, exporter default %q", c.Target, c.Default, def)
 			}
 			if c.Value != "" && c.Value != c.Default {
