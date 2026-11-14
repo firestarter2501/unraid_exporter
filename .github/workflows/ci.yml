@@ -63,8 +63,9 @@ jobs:
         with:
           context: .
           file: Containerfile
-          # Unraid runs on x86_64.
-          platforms: linux/amd64
+          # Unraid runs on x86_64; arm64 is for running it on another host such as a Raspberry Pi.
+          # The Go build cross-compiles, so no QEMU is needed.
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
