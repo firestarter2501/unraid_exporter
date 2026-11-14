@@ -1,21 +1,24 @@
 # syntax=docker/dockerfile:1
 ARG GO_IMAGE=docker.io/library/golang:1.26-trixie
 
-FROM ${GO_IMAGE} AS build
+# Build on the builder's own platform and cross-compile for the target (no emulation needed).
+FROM --platform=$BUILDPLATFORM ${GO_IMAGE} AS build
 WORKDIR /src
 COPY go.mod go.sum ./
 RUN --mount=type=cache,target=/go/pkg/mod go mod download
 COPY . .
 ARG VERSION=dev
 ARG REVISION=unknown
+ARG TARGETOS
+ARG TARGETARCH
 RUN --mount=type=cache,target=/go/pkg/mod --mount=type=cache,target=/root/.cache/go-build \
-    CGO_ENABLED=0 go build -trimpath \
+    CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -trimpath \
       -ldflags "-s -w \
         -X github.com/prometheus/common/version.Version=${VERSION} \
         -X github.com/prometheus/common/version.Revision=${REVISION} \
         -X github.com/prometheus/common/version.Branch=main" \
       -o /out/unraid_exporter ./cmd/unraid_exporter \
- && CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o /out/mockunraid ./test/mockunraid
+ && CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -trimpath -ldflags "-s -w" -o /out/mockunraid ./test/mockunraid
 
 # Mock Unraid API used only for end-to-end tests.
 FROM gcr.io/distroless/static-debian12:nonroot AS mockunraid
@@ -24,7 +27,7 @@ COPY internal/collector/testdata/*.json /fixtures/
 EXPOSE 8080
 ENTRYPOINT ["/mockunraid", "-fixtures", "/fixtures"]
 
-# The runtime image targets Docker on Unraid; build it with `--format docker`
+# The runtime image targets Docker on Unraid (amd64) and other hosts such as a Raspberry Pi (arm64); build it with `--format docker`
 # (./dev.sh image does) so HEALTHCHECK is kept.
 FROM gcr.io/distroless/static-debian12:nonroot
 LABEL org.opencontainers.image.title="unraid_exporter" \
